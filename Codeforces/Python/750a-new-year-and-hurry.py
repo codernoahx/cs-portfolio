@@ -11,7 +11,7 @@ def main():
             print(i - 1)
             break
     # If we the loop runs without breaking out prematurely, that means we never crossed the 240 mins mark.
-    # And thus we had enough time to solve all the n problems
+    # And thus we had enough time to solve all the n problems.
     else:
         print(n)
 
