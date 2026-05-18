@@ -83,7 +83,9 @@ def get_guessed_word(secret_word: str, letters_guessed: list[str]) -> str:
     # For every letter in secret_word
     for c in secret_word:
         # If that letter is in guessed letter list append it, else append "_ " (underscore followed by space)
-        word = word + c if c in letters_guessed else word + "_ "
+        word = (
+            word + c if c in letters_guessed else word + "_ "
+        )  # return the computed result
     return word
 
 
@@ -123,6 +125,7 @@ def hangman(secret_word):
 
     Follows the other limitations detailed in the problem write-up.
     """
+    # Variable to store remaining guessses and warnings. And a list to store guessed letters.
     guesses_remaining = 6
     warnings_remaining = 3
     letters_guessed = []
@@ -131,45 +134,59 @@ def hangman(secret_word):
     print(f"I am thinking of a word that is {len(secret_word)} letters long.")
     print(f"You have {warnings_remaining} warnings left.")
 
+    # While there are guesses left and the guessed letters doesn't contain all the secret word letters
     while guesses_remaining > 0 and not is_word_guessed(secret_word, letters_guessed):
         print("-" * 15)
         print(f"You have {guesses_remaining} guesses left.")
         print(f"Available letters: {get_available_letters(letters_guessed)}")
+        # Take the guessed character input from the user.
         guess = input("Please guess a letter: ").strip().lower()
 
+        # If guess is an alphabet
         if guess.isalpha():
+            # If we already guessed the letter
             if guess in letters_guessed:
+                # If there are any warnings left, subtract it by 1
                 if warnings_remaining:
                     warnings_remaining -= 1
                     print(
                         f"Oops! You've already guessed that letter. You have {warnings_remaining} warnings left: {get_guessed_word(secret_word, letters_guessed)}"
                     )
+                # Else subtract 1, from the remaining guesses
                 else:
                     guesses_remaining -= 1
                     print(
                         f"Oops! You've already guessed that letter. You have no warnings left so you lose one guess: {get_guessed_word(secret_word, letters_guessed)}"
                     )
+            # Else if letter is in secret word, append it to the guessed letters list
             elif guess in secret_word:
                 letters_guessed.append(guess)
                 print(f"Good guess: {get_guessed_word(secret_word, letters_guessed)}")
+            # Else if this letter isn't guessed before nor part of secret word letter
             else:
+                # Append it to the guessed letter list
                 letters_guessed.append(guess)
+                # If the wrong guessed letter is a vowel, subtract remaining guesses by 2
                 if guess in "aeiou":
                     guesses_remaining -= 2
                     print(
                         f"Oops! That letter is not in my word. {get_guessed_word(secret_word, letters_guessed)}"
                     )
+                # Else if the wrong guessed letter is a consonant, subtract remaining guesses by 1
                 else:
                     guesses_remaining -= 1
                     print(
                         f"Oops! That letter is not in my word. {get_guessed_word(secret_word, letters_guessed)}"
                     )
+        # If it isn't an alphabet
         else:
+            # If there any warnings left, subtract it by 1
             if warnings_remaining:
                 warnings_remaining -= 1
                 print(
                     f"Oops! That is not a valid letter. You have {warnings_remaining} warnings left: {get_guessed_word(secret_word, letters_guessed)}"
                 )
+            # Else subtract 1, from the remaining guesses
             else:
                 guesses_remaining -= 1
                 print(
