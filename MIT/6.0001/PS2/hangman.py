@@ -242,7 +242,7 @@ def match_with_gaps(my_word: str, other_word: str) -> bool:
     return True
 
 
-def show_possible_matches(my_word):
+def show_possible_matches(my_word: str) -> None:
     """
     my_word: string with _ characters, current guess of secret word
     returns: nothing, but should print out every word in wordlist that matches my_word
@@ -252,8 +252,23 @@ def show_possible_matches(my_word):
              that has already been revealed.
 
     """
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    # A flag to check if any word's got matched
+    word_matched = False
+    # for every word in the wordlist
+    for word in wordlist:
+        # If my_word matched with word
+        if match_with_gaps(my_word, word):
+            # Print it and change the keyword argument end value from '\n' to ' '
+            print(word, end=" ")
+            # Set the flag to True, since we found at least one matched word
+            word_matched = True
+    # If no word is matched
+    if not word_matched:
+        # Print the below message and change the keyword argument end from '\n' to ''
+        print("No matches found", end="")
+    # print a newline
+    print()
+    # This function returns None implicitly
 
 
 def hangman_with_hints(secret_word):
