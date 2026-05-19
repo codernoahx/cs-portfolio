@@ -211,7 +211,7 @@ def hangman(secret_word):
 # -----------------------------------
 
 
-def match_with_gaps(my_word, other_word):
+def match_with_gaps(my_word: str, other_word: str) -> bool:
     """
     my_word: string with _ characters, current guess of secret word
     other_word: string, regular English word
@@ -220,8 +220,26 @@ def match_with_gaps(my_word, other_word):
         _ , and my_word and other_word are of the same length;
         False otherwise:
     """
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    # Replace underscore followed by a space with just underscore
+    my_word = my_word.replace("_ ", "_")
+    # If the len of my word and other word isn't equal return False
+    if len(my_word) != len(other_word):
+        return False
+    # Loop over every index and letter in my word
+    for i, c in enumerate(my_word):
+        # If the letter is underscore
+        if c == "_":
+            # If for that underscore index position in my_word, check if that equivalent position letter of other_word already
+            # exists in my_word. If so then that means my_word will have some other letter at ith position (_) compared to
+            # other_word. As that letter exists already in my_word but didn't replaced the underscore, which means that
+            # letter won't replace the underscore in my_word. And thus, we return False
+            if other_word[i] in my_word:
+                return False
+        # Else if the letter in my_word isn't equivalent to the same position letter in other_word, we return false
+        elif c != other_word[i]:
+            return False
+    # If the loop completes, we have a match and we can return True
+    return True
 
 
 def show_possible_matches(my_word):
