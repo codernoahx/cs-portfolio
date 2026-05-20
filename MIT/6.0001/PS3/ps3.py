@@ -227,7 +227,7 @@ def update_hand(hand: dict[str, int], word: str) -> dict[str, int]:
 #
 # Problem #3: Test word validity
 #
-def is_valid_word(word, hand, word_list):
+def is_valid_word(word: str, hand: dict[str, int], word_list: list[str]) -> bool:
     """
     Returns True if word is in the word_list and is entirely
     composed of letters in the hand. Otherwise, returns False.
@@ -238,8 +238,27 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     returns: boolean
     """
-
-    pass  # TO DO... Remove this line when you implement this function
+    # convert word to lowercase
+    word = word.lower()
+    # get frequency distribution for letters in word
+    word_freq = get_frequency_dict(word)
+    # for every key in word frequency
+    for letter in word_freq:
+        # if the letter doesn't exist in hand/word_freq we get a 0, we'll return False if either (especially hand) becomes 0
+        # (word_freq won't be 0, because we're looping on it)
+        # or if the value which maps to hand's letter key is smaller than word's letter key value, then we return false
+        if hand.get(letter, 0) < word_freq.get(letter, 0):
+            return False
+    # At this point, the word is constructed using hand's letters
+    # Loop over every word in the word_list
+    for w in word_list:
+        # Convert the current word from the word_list to lowercase and compare it with the word in question, if they match
+        # return True
+        if w.lower() == word:
+            return True
+    # after the word was constructed using hand letters and there are no matches, since the loop executes completely
+    # we return False
+    return False
 
 
 #
