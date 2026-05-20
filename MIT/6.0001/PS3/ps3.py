@@ -42,6 +42,7 @@ SCRABBLE_LETTER_VALUES = {
     "x": 8,
     "y": 4,
     "z": 10,
+    "*": 0,
 }
 
 # -----------------------------------
@@ -160,7 +161,7 @@ def display_hand(hand):
 # Make sure you understand how this function works and what it does!
 # You will need to modify this for Problem #4.
 #
-def deal_hand(n):
+def deal_hand(n: int) -> dict[str, int]:
     """
     Returns a random hand containing n lowercase letters.
     ceil(n/3) letters in the hand should be VOWELS (note,
@@ -173,11 +174,12 @@ def deal_hand(n):
     n: int >= 0
     returns: dictionary (string -> int)
     """
-
-    hand = {}
+    if n == 0:
+        return {}
+    hand = {"*": 1}
     num_vowels = int(math.ceil(n / 3))
 
-    for i in range(num_vowels):
+    for i in range(num_vowels - 1):
         x = random.choice(VOWELS)
         hand[x] = hand.get(x, 0) + 1
 
@@ -250,14 +252,27 @@ def is_valid_word(word: str, hand: dict[str, int], word_list: list[str]) -> bool
         if hand.get(letter, 0) < word_freq.get(letter, 0):
             return False
     # At this point, the word is constructed using hand's letters
+    # create a list to store the word
+    words = [word]
+    # if their is a * in the word
+    if word_freq.get("*", 0):
+        # pop the word
+        words.pop()
+        # for each vowel in vowels
+        for vowel in VOWELS:
+            # replace the star with vowel and append it to the list
+            words.append(word.replace("*", vowel))
+
     # Loop over every word in the word_list
-    for w in word_list:
-        # Convert the current word from the word_list to lowercase and compare it with the word in question, if they match
-        # return True
-        if w.lower() == word:
-            return True
-    # after the word was constructed using hand letters and there are no matches, since the loop executes completely
-    # we return False
+    for wl in word_list:
+        # Loop over every word from the words list
+        for w in words:
+            # Convert the current word from the word_list to lowercase and compare it with the word in question, if they match
+            # return True
+            if wl.lower() == w:
+                return True
+    # after the word was constructed using hand letters and there are no matches even if * exists in the word, and get's replaced
+    # with all the vowels and compared, hence the loop executes completely we return False
     return False
 
 
