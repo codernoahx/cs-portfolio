@@ -191,7 +191,7 @@ def deal_hand(n):
 #
 # Problem #2: Update a hand by removing letters
 #
-def update_hand(hand, word):
+def update_hand(hand: dict[str, int], word: str) -> dict[str, int]:
     """
     Does NOT assume that hand contains every letter in word at least as
     many times as the letter appears in word. Letters in word that don't
@@ -209,8 +209,19 @@ def update_hand(hand, word):
     hand: dictionary (string -> int)
     returns: dictionary (string -> int)
     """
-
-    pass  # TO DO... Remove this line when you implement this function
+    # copy of hand to modify it
+    new_hand = hand.copy()
+    # convert word to lower and loop over every letter in the word
+    for c in word.lower():
+        # if the letter exists in the new_hand
+        if c in new_hand:
+            # decrement the value stored in it by 1
+            new_hand[c] -= 1
+            # if the value mapped to that key becomes 0, delete it from the dict
+            if new_hand[c] == 0:
+                del new_hand[c]
+    # after the loop ends return the newly computed new_hand
+    return new_hand
 
 
 #
