@@ -329,6 +329,26 @@ def test_calculate_handlen():
     print("SUCCESS: test_calculate_handlen()")
 
 
+def test_substitute_hand():
+    hands = [
+        ({"h": 1, "e": 1, "l": 2, "o": 1}, "l"),
+        (get_frequency_dict("aci*prt"), "p"),
+        (get_frequency_dict("dd*lout"), "l"),
+    ]
+    for hand in hands:
+        assert substitute_hand(hand[0], hand[1]) != hand[0]
+
+    assert substitute_hand(get_frequency_dict("a*erdt"), "x") == get_frequency_dict("a*erdt")
+    assert substitute_hand(get_frequency_dict(""), "") == get_frequency_dict("")
+    assert substitute_hand(get_frequency_dict("abcdef"), "") == get_frequency_dict("abcdef")
+    assert substitute_hand(get_frequency_dict(""), "q") == get_frequency_dict("")
+    assert substitute_hand(get_frequency_dict("a"), "a") != get_frequency_dict("a")
+    assert substitute_hand(get_frequency_dict("b*vsrt"), "*") != get_frequency_dict("b*vsrt")
+    assert substitute_hand(get_frequency_dict("ab4xsdt"), "4") != get_frequency_dict("ab4xsdt")
+
+    print("SUCCESS: test_substitute_hand()")
+
+
 word_list = load_words()
 print("----------------------------------------------------------------------")
 print("Testing get_word_score...")
@@ -345,4 +365,7 @@ test_wildcard(word_list)
 print("----------------------------------------------------------------------")
 print("Testing calculate_handlen...")
 test_calculate_handlen()
+print("----------------------------------------------------------------------")
+print("Testing substitute_hand...")
+test_substitute_hand()
 print("All done!")
