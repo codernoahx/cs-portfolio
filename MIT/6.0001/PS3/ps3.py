@@ -363,7 +363,7 @@ def play_hand(hand: dict[str, int], word_list: list[str]) -> int:
     # so tell user the total score
     if len(hand) == 0:  # If we ran out of letters
         print("Ran out of letters.", end=" ")
-    print(f"Total score: {total_score} points")
+    print(f"Total score for this hand: {total_score} points")
     # Return the total score as result of function
     return total_score
 
@@ -417,7 +417,7 @@ def substitute_hand(hand: dict[str, int], letter: str):
     return hand_copy
 
 
-def play_game(word_list):
+def play_game(word_list: list[str]) -> None:
     """
     Allow the user to play a series of hands
 
@@ -447,10 +447,57 @@ def play_game(word_list):
 
     word_list: list of lowercase strings
     """
-
-    print(
-        "play_game not implemented."
-    )  # TO DO... Remove this line when you implement this function
+    # variables to store total_score and flags for replay and substitution
+    total_score, replay, substitution = 0, True, True
+    # Ask for the number of hands
+    number_of_hands = int(input("Enter total number of hands: "))
+    # Keep on looping until number of hand becomes 0
+    while number_of_hands:
+        # generate a hand
+        hand = deal_hand(HAND_SIZE)
+        # Display the hand
+        print("Current Hand: ", end="")
+        display_hand(hand)
+        # if substitution flag is set to true then the right half of the 'and' will execute, else it won't. And if it's true,
+        # it asks for input, if the input is yes or y we execute the if block
+        if substitution and input(
+            "Would you like to substitute a letter? "
+        ).strip().lower() in [
+            "yes",
+            "y",
+        ]:
+            # Ask the user for a letter to substitute
+            letter = input("Which letter would you like to replace: ")
+            print()
+            # pass the substituted dict (returned from substituted hand function) to the play hand function
+            score = play_hand(substitute_hand(hand, letter), word_list)
+            # set the susbtitution flag False (only one substitution per game)
+            substitution = False
+        # Else if the flag is False or the input isn't a yes or y
+        else:
+            print()
+            # we pass the original hand to the play hand function
+            score = play_hand(hand, word_list)
+        print("-" * 7)
+        # if replay flag is set to true then the right half of the 'and' will execute, else it won't. And if it's true,
+        # it asks for input, if the input is yes or y we execute the if block
+        if replay and input("Would you like to replay the hand? ").strip().lower() in [
+            "yes",
+            "y",
+        ]:
+            print()
+            # pass the original hand to the play hand function
+            # picks the max value between the newly calculated score and the score's current value
+            score = max(play_hand(hand, word_list), score)
+            # set the replay flag False (only one replay per game)
+            replay = False
+            print("-" * 7)
+        # add the score to the total score
+        total_score += score
+        # decrement number of hands by 1
+        number_of_hands -= 1
+    # print the total score
+    print(f"Total score over all hands:{total_score} points")
 
 
 #
