@@ -497,7 +497,7 @@ def play_game(word_list: list[str]) -> None:
         # decrement number of hands by 1
         number_of_hands -= 1
     # print the total score
-    print(f"Total score over all hands:{total_score} points")
+    print(f"Total score over all hands: {total_score} points")
 
 
 #
