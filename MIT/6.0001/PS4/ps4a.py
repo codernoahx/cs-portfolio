@@ -1,5 +1,5 @@
 # Problem Set 4A
-# Name: Noah
+# Name:
 # Collaborators:
 # Time Spent: x:xx
 
