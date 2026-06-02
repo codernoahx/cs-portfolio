@@ -149,7 +149,7 @@ class SubMessage(object):
 
 
 class EncryptedSubMessage(SubMessage):
-    def __init__(self, text):
+    def __init__(self, text: str) -> None:
         """
         Initializes an EncryptedSubMessage object
 
@@ -159,9 +159,9 @@ class EncryptedSubMessage(SubMessage):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         """
-        pass  # delete this line and replace with your code here
+        SubMessage.__init__(self, text)
 
-    def decrypt_message(self):
+    def decrypt_message(self) -> str:
         """
         Attempt to decrypt the encrypted message
 
@@ -179,7 +179,32 @@ class EncryptedSubMessage(SubMessage):
 
         Hint: use your function from Part 4A
         """
-        pass  # delete this line and replace with your code here
+        # create an empty list to store all the tuples of (matched_words (count), decrypted_message)
+        guess_list: list[tuple] = []
+        # get a list of all possible permutations of lowercase vowels, because we can create uppercase vowels mapping
+        # in the build_transpose_dict method
+        permutations: list[str] = get_permutations(VOWELS_LOWER)
+        # for every permutation in permutations
+        for permutation in permutations:
+            # a tracker variable to keep the count of number of matched words
+            matched_words = 0
+            # decrypt the message by calling build_transpose_dict method with permutation inside apply_transpose method to
+            # decrypt the message
+            decrypted_message = self.apply_transpose(
+                self.build_transpose_dict(permutation)
+            )
+            # for every word in decrypted message (the words are splitted by using space/tabs/newline as the separator string)
+            for word in decrypted_message.split():
+                # if the word is valid
+                if is_word(self.get_valid_words(), word):
+                    # increment matched words by 1
+                    matched_words += 1
+            # append the tuple of matched words count and the decrypted message: (matched_words, decrypted_message)
+            guess_list.append((matched_words, decrypted_message))
+            # sort the list in descending order, using the first element of each tuple
+        guess_list.sort(reverse=True)
+        # if the matched_words count is greater than 0: return the decrypted_message, else: return the original encrypted text
+        return guess_list[0][1] if guess_list[0][0] > 0 else self.get_message_text()
 
 
 if __name__ == "__main__":
