@@ -1,7 +1,7 @@
 # Problem Set 4C
 # Name: Noah
 # Collaborators:
-# Time Spent: x:xx
+# Time Spent: 0:30
 
 import string
 from ps4a import get_permutations
@@ -219,4 +219,25 @@ if __name__ == "__main__":
     enc_message = EncryptedSubMessage(message.apply_transpose(enc_dict))
     print("Decrypted message:", enc_message.decrypt_message())
 
-    # TODO: WRITE YOUR TEST CASES HERE
+    permutations = get_permutations(VOWELS_LOWER)
+    print("-" * 15)
+
+    message = SubMessage("Python is fabulous!")
+    permutation = permutations[10]  # 'aioeu'
+    enc_dict = message.build_transpose_dict(permutation)
+    print("Original message:", message.get_message_text(), "Permutation:", permutation)
+    print("Expected encryption:", "Pythen os fabuleus!")
+    print("Actual encryption:", message.apply_transpose(enc_dict))
+    enc_message = EncryptedSubMessage(message.apply_transpose(enc_dict))
+    print("Decrypted message:", enc_message.decrypt_message())
+
+    print("-" * 15)
+
+    message = SubMessage("Classes and Recursion.")
+    permutation = permutations[37]  # 'oiaue'
+    enc_dict = message.build_transpose_dict(permutation)
+    print("Original message:", message.get_message_text(), "Permutation:", permutation)
+    print("Expected encryption:", "Clossis ond Ricersaun.")
+    print("Actual encryption:", message.apply_transpose(enc_dict))
+    enc_message = EncryptedSubMessage(message.apply_transpose(enc_dict))
+    print("Decrypted message:", enc_message.decrypt_message())
