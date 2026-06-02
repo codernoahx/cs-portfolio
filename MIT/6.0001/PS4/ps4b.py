@@ -65,7 +65,7 @@ WORDLIST_FILENAME = "words.txt"
 
 
 class Message(object):
-    def __init__(self, text: str):
+    def __init__(self, text: str) -> None:
         """
         Initializes a Message object
 
@@ -110,19 +110,21 @@ class Message(object):
                  another letter (string).
         """
         # create an empty dict
-        text_to_cipher: dict = {}
+        encryption_dict: dict = {}
         # for every letter in the lowercase alphabet string
         for char in string.ascii_lowercase:
             # add the char/char.upper() key mapped to their shifted value determined by the shift variable
             # RHS expression: ascii value of a/A is subtracted by char/char.upper() ascii value + shift and then doing the modulo
             # of that value which will give us a value lying between 0 <= value <=25 and then we add the ascii value of a/A to it
             # and finally convert the ascii value to it's equivalent character and assign it to the char/char.upper() key
-            text_to_cipher[char] = chr(((ord(char) - ord("a")) + shift) % 26 + ord("a"))
-            text_to_cipher[char.upper()] = chr(
+            encryption_dict[char] = chr(
+                ((ord(char) - ord("a")) + shift) % 26 + ord("a")
+            )
+            encryption_dict[char.upper()] = chr(
                 ((ord(char.upper()) - ord("A")) + shift) % 26 + ord("A")
             )
-        # return the dict which contains mapping: letter -> shifted letter
-        return text_to_cipher
+        # return the encryption dict which contains mapping: letter -> shifted letter
+        return encryption_dict
 
     def apply_shift(self, shift: int) -> str:
         """
@@ -137,20 +139,20 @@ class Message(object):
              down the alphabet by the input shift
         """
         # call the build_shift_dict function to create shift letter mapping
-        text_to_cipher: dict[str, str] = self.build_shift_dict(shift)
+        encryption_dict: dict[str, str] = self.build_shift_dict(shift)
         # create an empty string variable to store the encrypted text
         encrypted_message: str = ""
         # for every character in message
         for char in self.message_text:
             # append the values to the right, if it is an alphabet append the mapped shifted letter
             # corresponding to the char letter key, else if it isn't an alphabet append it as it is
-            encrypted_message += text_to_cipher[char] if char.isalpha() else char
+            encrypted_message += encryption_dict[char] if char.isalpha() else char
         # return the encrypted message
         return encrypted_message
 
 
 class PlaintextMessage(Message):
-    def __init__(self, text, shift):
+    def __init__(self, text: str, shift: int) -> None:
         """
         Initializes a PlaintextMessage object
 
@@ -165,7 +167,10 @@ class PlaintextMessage(Message):
             self.message_text_encrypted (string, created using shift)
 
         """
-        pass  # delete this line and replace with your code here
+        Message.__init__(self, text)
+        self.shift: int = shift
+        self.encryption_dict: dict[str, str] = self.build_shift_dict(shift)
+        self.message_text_encrypted: str = self.apply_shift(shift)
 
     def get_shift(self):
         """
@@ -173,7 +178,7 @@ class PlaintextMessage(Message):
 
         Returns: self.shift
         """
-        pass  # delete this line and replace with your code here
+        return self.shift
 
     def get_encryption_dict(self):
         """
@@ -181,7 +186,7 @@ class PlaintextMessage(Message):
 
         Returns: a COPY of self.encryption_dict
         """
-        pass  # delete this line and replace with your code here
+        return self.encryption_dict.copy()
 
     def get_message_text_encrypted(self):
         """
@@ -189,9 +194,9 @@ class PlaintextMessage(Message):
 
         Returns: self.message_text_encrypted
         """
-        pass  # delete this line and replace with your code here
+        return self.message_text_encrypted
 
-    def change_shift(self, shift):
+    def change_shift(self, shift: int) -> None:
         """
         Changes self.shift of the PlaintextMessage and updates other
         attributes determined by shift.
@@ -201,7 +206,12 @@ class PlaintextMessage(Message):
 
         Returns: nothing
         """
-        pass  # delete this line and replace with your code here
+        # updates the shift value
+        self.shift: int = shift
+        # update the encryption dict mapped using the new shift
+        self.encryption_dict: dict[str, str] = self.build_shift_dict(shift)
+        # update the encrypted text using the new encryption dict based on the new shift value
+        self.message_text_encrypted: str = self.apply_shift(shift)
 
 
 class CiphertextMessage(Message):
