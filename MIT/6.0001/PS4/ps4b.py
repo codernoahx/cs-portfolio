@@ -312,6 +312,9 @@ if __name__ == "__main__":
     print("Expected Output:", (1, "Math"))
     print("Actual Output:", ciphertext.decrypt_message())
 
-    # TODO: best shift value and unencrypted story
+    print("-" * 15)
 
-    pass  # delete this line and replace with your code here
+    ciphertext = CiphertextMessage(get_story_string())
+    decrypted_tuple = ciphertext.decrypt_message()
+    print(f"Best Shift Value: {decrypted_tuple[0]}")
+    print(f"Decrypted Story: {decrypted_tuple[1]}")
