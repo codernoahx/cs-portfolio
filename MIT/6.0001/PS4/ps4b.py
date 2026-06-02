@@ -1,7 +1,7 @@
 # Problem Set 4B
 # Name: Noah
 # Collaborators:
-# Time Spent: x:xx
+# Time Spent: 0:45
 
 import string
 
