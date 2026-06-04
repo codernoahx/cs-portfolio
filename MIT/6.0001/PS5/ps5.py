@@ -1,5 +1,5 @@
 # 6.0001/6.00 Problem Set 5 - RSS Feed Filter
-# Name:
+# Name: Noah
 # Collaborators:
 # Time:
 
@@ -127,8 +127,40 @@ class Trigger(object):
 
 # PHRASE TRIGGERS
 
+
 # Problem 2
-# TODO: PhraseTrigger
+class PhraseTrigger(Trigger):
+    def __init__(self, phrase: str) -> None:
+        """
+        Initializes a PhraseTrigger object
+
+        phrase (string): A phrase is one or more words separated by a single space between the word
+        """
+        self.phrase = phrase
+
+    def is_phrase_in(self, text: str) -> bool:
+        """
+        Returns True if the exact phrase exists in the text, and in the given order. Else False
+
+        text (string): a phrase, sentence or paragraphs
+        """
+        # for every punctuation in punctuation string
+        for punctuation in string.punctuation:
+            # replace punctuations with space and reassign the string to text
+            text = text.replace(punctuation, " ")
+        # Why not use in: "cow" in "cows" -> True. No strict exact word matching
+        # split the phrase to match word's individually with the texts list
+        phrases: list[str] = self.phrase.lower().split()
+        # split the text to be able to match each individual phrase for exact word matches from the text word's
+        texts: list[str] = text.lower().split()
+        # for every phrase in phrases
+        for phrase in phrases:
+            # if the exact phrase doesn't exist, it returns False
+            if phrase not in texts:
+                return False
+        # convert the phrases and texts back to string and check if the exact phrase exist in the correct order
+        return " ".join(phrases) in " ".join(texts)
+
 
 # Problem 3
 # TODO: TitleTrigger
