@@ -163,7 +163,20 @@ class PhraseTrigger(Trigger):
 
 
 # Problem 3
-# TODO: TitleTrigger
+class TitleTrigger(PhraseTrigger):
+    def __init__(self, phrase: str) -> None:
+        """
+        Initializes a TitleTrigger object
+
+        phrase (string): A phrase is one or more words separated by a single space between the word
+        """
+        PhraseTrigger.__init__(self, phrase)
+
+    def evaluate(self, story: NewsStory) -> bool:
+        # return True if phrase is in the title else False, by calling the is_phrase_in method with title passed
+        # as an argument to the method to check if that phrase exists in the story title or not
+        return self.is_phrase_in(story.get_title())
+
 
 # Problem 4
 # TODO: DescriptionTrigger
