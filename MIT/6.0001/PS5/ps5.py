@@ -209,11 +209,41 @@ class TimeTrigger(Trigger):
         time (string): A string of time in EST format of "%d %b %Y %H:%M:%S"
         """
 
+        # convert the string to datetime object, matching the given time format pattern
         self.time = datetime.strptime(time, "%d %b %Y %H:%M:%S")
+        # and add timezone information to the time attribute
+        self.time = self.time.replace(tzinfo=pytz.timezone("EST"))
 
 
 # Problem 6
-# TODO: BeforeTrigger and AfterTrigger
+class BeforeTrigger(TimeTrigger):
+    def __init__(self, time: str) -> None:
+        """
+        Initializes a BeforeTrigger object
+
+        time (string): A string of time in EST format of "%d %b %Y %H:%M:%S"
+        """
+        TimeTrigger.__init__(self, time)
+
+    def evaluate(self, story: NewsStory) -> bool:
+        # add EST timezone info to the story publishing date
+        # if the published time is before the trigger time return True, else False
+        return story.get_pubdate().replace(tzinfo=pytz.timezone("EST")) < self.time
+
+
+class AfterTrigger(TimeTrigger):
+    def __init__(self, time: str) -> None:
+        """
+        Initializes an AfterTrigger object
+
+        time (string): A string of time in EST format of "%d %b %Y %H:%M:%S"
+        """
+        TimeTrigger.__init__(self, time)
+
+    def evaluate(self, story: NewsStory) -> bool:
+        # add EST timezone info to the story publishing date
+        # if the published time is after the trigger time return True, else False
+        return story.get_pubdate().replace(tzinfo=pytz.timezone("EST")) > self.time
 
 
 # COMPOSITE TRIGGERS
