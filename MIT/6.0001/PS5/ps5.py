@@ -251,9 +251,9 @@ class AfterTrigger(TimeTrigger):
 
 # Problem 7
 class NotTrigger(Trigger):
-    def __init__(self, trigger) -> None:
+    def __init__(self, trigger: Trigger) -> None:
         """
-        Initializes a DescriptionTrigger object
+        Initializes an NotTrigger object
 
         trigger (Trigger): An instance/object of the sub/child class of Trigger class,
         having at least an implementation of the evaluate method
@@ -266,7 +266,23 @@ class NotTrigger(Trigger):
 
 
 # Problem 8
-# TODO: AndTrigger
+class AndTrigger(Trigger):
+    def __init__(self, trigger1: Trigger, trigger2: Trigger) -> None:
+        """
+        Initializes an AndTrigger object
+
+        trigger1 (Trigger): An instance/object of the sub/child class of Trigger class,
+        having at least an implementation of the evaluate method
+        trigger2 (Trigger): An instance/object of the sub/child class of Trigger class,
+        having at least an implementation of the evaluate method
+        """
+        self.trigger1: Trigger = trigger1
+        self.trigger2: Trigger = trigger2
+
+    def evaluate(self, story: NewsStory) -> bool:
+        # returns the logical and of the bool value returned by both the triggers evaluate method
+        return self.trigger1.evaluate(story) and self.trigger2.evaluate(story)
+
 
 # Problem 9
 # TODO: OrTrigger
