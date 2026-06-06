@@ -248,8 +248,22 @@ class AfterTrigger(TimeTrigger):
 
 # COMPOSITE TRIGGERS
 
+
 # Problem 7
-# TODO: NotTrigger
+class NotTrigger(Trigger):
+    def __init__(self, trigger) -> None:
+        """
+        Initializes a DescriptionTrigger object
+
+        trigger (Trigger): An instance/object of the sub/child class of Trigger class,
+        having at least an implementation of the evaluate method
+        """
+        self.trigger: Trigger = trigger
+
+    def evaluate(self, story: NewsStory) -> bool:
+        # applies logical not on the returned bool value of the trigger object's evaluate method and returns it
+        return not self.trigger.evaluate(story)
+
 
 # Problem 8
 # TODO: AndTrigger
