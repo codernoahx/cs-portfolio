@@ -285,7 +285,22 @@ class AndTrigger(Trigger):
 
 
 # Problem 9
-# TODO: OrTrigger
+class OrTrigger(Trigger):
+    def __init__(self, trigger1: Trigger, trigger2: Trigger) -> None:
+        """
+        Initializes an OrTrigger object
+
+        trigger1 (Trigger): An instance/object of the sub/child class of Trigger class,
+        having at least an implementation of the evaluate method
+        trigger2 (Trigger): An instance/object of the sub/child class of Trigger class,
+        having at least an implementation of the evaluate method
+        """
+        self.trigger1: Trigger = trigger1
+        self.trigger2: Trigger = trigger2
+
+    def evaluate(self, story: NewsStory) -> bool:
+        # returns the logical or of the bool value returned by both the triggers evaluate method
+        return self.trigger1.evaluate(story) or self.trigger2.evaluate(story)
 
 
 # ======================
