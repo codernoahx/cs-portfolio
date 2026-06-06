@@ -309,16 +309,28 @@ class OrTrigger(Trigger):
 
 
 # Problem 10
-def filter_stories(stories, triggerlist):
+def filter_stories(stories: list[NewsStory], triggerlist: list[Trigger]):
     """
     Takes in a list of NewsStory instances.
 
     Returns: a list of only the stories for which a trigger in triggerlist fires.
     """
     # TODO: Problem 10
-    # This is a placeholder
-    # (we're just returning all the stories, with no filtering)
-    return stories
+    # a new list to store the filtered stories
+    filtered_stories: list[NewsStory] = []
+    # for every story in stories
+    for story in stories:
+        # for every trigger in triggerlist
+        for trigger in triggerlist:
+            # if a trigger evaluates to true for a story
+            if trigger.evaluate(story):
+                # append it to the list of filtered stories
+                filtered_stories.append(story)
+                # break out of the loop, since checking for other trigger's to be True isn't needed
+                # because if any one of them evaluates to True, we add them to the list
+                break
+    # return the list of filtered stories with at least one trigger evaluated to be True for them
+    return filtered_stories
 
 
 # ======================
