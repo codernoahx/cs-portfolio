@@ -337,7 +337,7 @@ def filter_stories(stories: list[NewsStory], triggerlist: list[Trigger]):
 # User-Specified Triggers
 # ======================
 # Problem 11
-def read_trigger_config(filename):
+def read_trigger_config(filename: str) -> list[Trigger]:
     """
     filename: the name of a trigger configuration file
 
@@ -347,7 +347,7 @@ def read_trigger_config(filename):
     # We give you the code to read in the file and eliminate blank lines and
     # comments. You don't need to know how it works for now!
     trigger_file = open(filename, "r")
-    lines = []
+    lines: list[str] = []
     for line in trigger_file:
         line = line.rstrip()
         if not (len(line) == 0 or line.startswith("//")):
@@ -357,7 +357,64 @@ def read_trigger_config(filename):
     # line is the list of lines that you need to parse and for which you need
     # to build triggers
 
-    print(lines)  # for now, print it so you see what it contains!
+    # a list to store all the triggers
+    trigger_list = []
+    # a mapping of trigger names with triggers, tn -> Trigger
+    triggers_dict: dict[str, Trigger] = {}
+    # for every line in lines
+    for line in lines:
+        # split the commands separated by comma
+        trigger_commands = line.split(",")
+        # if the second trigger command is TITLE
+        if trigger_commands[1] == "TITLE":
+            # create a key with the first trigger command, and pass the trigger command third to the TitleTrigger and assign it
+            # to the first trigger command key
+            triggers_dict[trigger_commands[0]] = TitleTrigger(trigger_commands[2])
+        # else if the second trigger command is DESCRIPTION
+        elif trigger_commands[1] == "DESCRIPTION":
+            # create a key with the first trigger command, and pass the trigger command third to the DescriptionTrigger and assign it
+            # to the first trigger command key
+            triggers_dict[trigger_commands[0]] = DescriptionTrigger(trigger_commands[2])
+        # else if the second trigger command is AFTER
+        elif trigger_commands[1] == "AFTER":
+            # create a key with the first trigger command, and pass the trigger command third to the AfterTrigger and assign it
+            # to the first trigger command key
+            triggers_dict[trigger_commands[0]] = AfterTrigger(trigger_commands[2])
+        # else if the second trigger command is BEFORE
+        elif trigger_commands[1] == "BEFORE":
+            # create a key with the first trigger command, and pass the trigger command third to the BeforeTrigger and assign it
+            # to the first trigger command key
+            triggers_dict[trigger_commands[0]] = BeforeTrigger(trigger_commands[2])
+        # else if the second trigger command is NOT
+        elif trigger_commands[1] == "NOT":
+            # create a key with the first trigger command, and access the trigger command third value from the trigger_dict
+            # and pass that to the NotTrigger and assign it to the first trigger command key
+            triggers_dict[trigger_commands[0]] = NotTrigger(
+                triggers_dict[trigger_commands[2]]
+            )
+        # else if the second trigger command is AND
+        elif trigger_commands[1] == "AND":
+            # create a key with the first trigger command, and access the trigger command third and fourth value from the trigger_dict
+            # and pass those to the AndTrigger and assign it to the first trigger command key
+            triggers_dict[trigger_commands[0]] = AndTrigger(
+                triggers_dict[trigger_commands[2]], triggers_dict[trigger_commands[3]]
+            )
+        # if the second trigger command is OR
+        elif trigger_commands[1] == "OR":
+            # create a key with the first trigger command, and access the trigger command third and fourth value from the trigger_dict
+            # and pass those to the OrTrigger and assign it to the first trigger command key
+            triggers_dict[trigger_commands[0]] = OrTrigger(
+                triggers_dict[trigger_commands[2]], triggers_dict[trigger_commands[3]]
+            )
+        # if the second trigger command is ADD
+        elif trigger_commands[0] == "ADD":
+            # for every value from 1 to the length of trigger_commands (excluding it)
+            for i in range(1, len(trigger_commands)):
+                # append the Triggers by accessing the ith value of trigger command and using that to access the values
+                # from the trigger_dict
+                trigger_list.append(triggers_dict[trigger_commands[i]])
+    # return the list of triggers
+    return trigger_list
 
 
 SLEEPTIME = 120  # seconds -- how often we poll
@@ -375,7 +432,7 @@ def main_thread(master):
 
         # Problem 11
         # TODO: After implementing read_trigger_config, uncomment this line
-        # triggerlist = read_trigger_config('triggers.txt')
+        triggerlist = read_trigger_config("triggers.txt")
 
         # HELPER CODE - you don't need to understand this!
         # Draws the popup window that displays the filtered stories
