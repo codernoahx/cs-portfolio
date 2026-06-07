@@ -1,7 +1,7 @@
 # 6.0001/6.00 Problem Set 5 - RSS Feed Filter
 # Name: Noah
 # Collaborators:
-# Time:
+# Time: 1:30
 
 import feedparser
 import string
