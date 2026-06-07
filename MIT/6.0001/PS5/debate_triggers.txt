@@ -1,0 +1,25 @@
+t1,TITLE,presidential debate
+
+t2,DESCRIPTION,Trump
+
+t3,DESCRIPTION,Clinton
+
+t4,AND,t2,t3
+
+t5,AFTER,19 Oct 2016 18:00:00
+
+t6,BEFORE,19 Oct 2016 21:00:00
+
+t7,AND,t5,t6
+
+t8,AFTER,19 Oct 2016 21:00:00
+
+t9,BEFORE,19 Oct 2016 24:00:00
+
+t10,AND,t8,t9
+
+t11,AND,t7,t10
+
+t12,AND,t1,t11
+
+ADD,t4,t12
