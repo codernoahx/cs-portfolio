@@ -1,0 +1,2 @@
+Patches,5
+Spots,3

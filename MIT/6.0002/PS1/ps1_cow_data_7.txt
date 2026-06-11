@@ -1,0 +1,5 @@
+Princess,7
+Duchess,7
+Queen,7
+Rebel,3
+Scout,3

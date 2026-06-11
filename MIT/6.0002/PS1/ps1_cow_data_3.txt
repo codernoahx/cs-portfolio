@@ -1,0 +1,6 @@
+Bessie,8
+Daisy,4
+Molly,7
+Clover,5
+Elsie,6
+Joy,2

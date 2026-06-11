@@ -1,0 +1,4 @@
+Tiny,1
+Giant,15
+Slim,2
+Hefty,20
