@@ -1,4 +1,4 @@
 Tiny,1
-Giant,15
+Giant,6
 Slim,2
-Hefty,20
+Hefty,8

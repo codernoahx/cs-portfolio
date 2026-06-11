@@ -41,7 +41,7 @@ def load_cows(filename: str) -> dict[str, int]:
 
 
 # Problem 2
-def greedy_cow_transport(cows, limit=10):
+def greedy_cow_transport(cows: dict[str, int], limit=10) -> list[list[str]]:
     """
     Uses a greedy heuristic to determine an allocation of cows that attempts to
     minimize the number of spaceship trips needed to transport all the cows. The
@@ -64,7 +64,34 @@ def greedy_cow_transport(cows, limit=10):
     trips
     """
     # TODO: Your code here
-    pass
+    # an empty list to store all the lists
+    trips = []
+    # sort the cows, get the key value pairs as tuples and sort them using values by creating a lamda function and passing
+    # values as key and reverse will be True to get the sorted dict in descending order based on value (weight)
+    sorted_cows = dict(sorted(cows.items(), key=lambda x: x[1], reverse=True))
+    # while there are elements in sorted_cow dict
+    while sorted_cows:
+        # set the space to limit
+        space = limit
+        # create an empty list to store the cow names to be transported for the current trip
+        transport_list = []
+        # create a copy of the sorted dict
+        sorted_cows_copy = sorted_cows.copy()
+        # for each cow key in sorted cows copy
+        for cow in sorted_cows_copy:
+            # if space - weight of current cow is greater than or equal to 0
+            # walrus operator is first subtracting and assigning the value to space_left then comparing it with 0
+            if (space_left := space - sorted_cows_copy[cow]) >= 0:
+                # set the space to space_left
+                space = space_left
+                # append the cow name to the transport list
+                transport_list.append(cow)
+                # since this cow will be transported in the current trip, pop/remove it from the list
+                sorted_cows.pop(cow)  # or del sorted_cows[cow]
+        # append the new transport list to the list of trips
+        trips.append(transport_list)
+    # return trips, which is the list of all the transport list
+    return trips
 
 
 # Problem 3
