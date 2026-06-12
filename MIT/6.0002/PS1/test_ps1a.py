@@ -1,4 +1,4 @@
-from ps1a import load_cows, greedy_cow_transport
+from ps1a import load_cows, greedy_cow_transport, brute_force_cow_transport
 
 samples = {
     "ps1_cow_data.txt": {
@@ -98,3 +98,23 @@ def test_greedy_cow_transport():
         ["Millie", "Milkshake", "Lola"],
         ["Florence"],
     ]
+
+
+def test_brute_force_cow_transport():
+    assert brute_force_cow_transport(samples["ps1_cow_data_7.txt"]) == [
+        ["Hefty", "Slim"],
+        ["Giant", "Tiny"],
+    ] or [
+        ["Slim", "Hefty"],
+        ["Tiny", "Giant"],
+    ]
+
+    assert brute_force_cow_transport(load_cows("ps1_cow_data_4.txt")) == [
+        ["Patches", "Spots"]
+    ] or [["Spots", "Patches"]]
+
+    assert brute_force_cow_transport(samples["ps1_cow_data_3.txt"]) == [
+        ["Princess", "Rebel"],
+        ["Duchess", "Scout"],
+        ["Queen"],
+    ] or [["Rebel", "Princess"], ["Scout", "Duchess"], ["Queen"]]

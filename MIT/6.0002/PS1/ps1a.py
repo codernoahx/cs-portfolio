@@ -41,7 +41,7 @@ def load_cows(filename: str) -> dict[str, int]:
 
 
 # Problem 2
-def greedy_cow_transport(cows: dict[str, int], limit=10) -> list[list[str]]:
+def greedy_cow_transport(cows: dict[str, int], limit: int = 10) -> list[list[str]]:
     """
     Uses a greedy heuristic to determine an allocation of cows that attempts to
     minimize the number of spaceship trips needed to transport all the cows. The
@@ -86,7 +86,7 @@ def greedy_cow_transport(cows: dict[str, int], limit=10) -> list[list[str]]:
                 space = space_left
                 # append the cow name to the transport list
                 transport_list.append(cow)
-                # since this cow will be transported in the current trip, pop/remove it from the list
+                # since this cow will be transported in the current trip, pop/delete it from the list
                 sorted_cows.pop(cow)  # or del sorted_cows[cow]
         # append the new transport list to the list of trips
         trips.append(transport_list)
@@ -95,7 +95,7 @@ def greedy_cow_transport(cows: dict[str, int], limit=10) -> list[list[str]]:
 
 
 # Problem 3
-def brute_force_cow_transport(cows, limit=10):
+def brute_force_cow_transport(cows: dict[str, int], limit: int = 10) -> list[list[str]]:
     """
     Finds the allocation of cows that minimizes the number of spaceship trips
     via brute force.  The brute force algorithm should follow the following method:
@@ -117,7 +117,30 @@ def brute_force_cow_transport(cows, limit=10):
     trips
     """
     # TODO: Your code here
-    pass
+    # if cows is empty return an empty list
+    if len(cows) == 0:
+        return []
+
+    # A partition of a set X is a set of non-empty subsets of X such that every element x in X is in exactly one of these subsets
+    # get_partitions in first iteration yields a list with one element, which is a list of all the keys in cow keys
+    # in the second iteration it yeilds list of 2 lists and each of them containing some of the cow keys and no value is repeated
+    # and it generates all the possible list containing 2 list with all possible arrangements of keys divided between the 2 list
+    # then moves on to the partition of list contains 3 lists with non-repeating key values, and so on.
+    # for each partition from the partition set of cow keys
+    for partition in get_partitions(cows.keys()):
+        # for every trip from that partition
+        for trip in partition:
+            # if the sum of the transported cows is beyond the limit, break out of the loop.
+            # We don't need this partition if any of the trip has weight beyond the limit
+            if sum(cows[name] for name in trip) > limit:
+                break
+        # if a partition doesn't break out the loop prematurely, that means all the trips inside it is within
+        # the weightt limit
+        else:
+            # return the current partition, since it's the one of the best possible partitions
+            return partition
+    # To satisfy pylance error that the final return statement must return a list, because of type hints
+    return []
 
 
 # Problem 4
