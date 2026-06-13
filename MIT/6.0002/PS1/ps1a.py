@@ -144,7 +144,7 @@ def brute_force_cow_transport(cows: dict[str, int], limit: int = 10) -> list[lis
 
 
 # Problem 4
-def compare_cow_transport_algorithms():
+def compare_cow_transport_algorithms() -> None:
     """
     Using the data from ps1_cow_data.txt and the specified weight limit, run your
     greedy_cow_transport and brute_force_cow_transport functions here. Use the
@@ -158,4 +158,27 @@ def compare_cow_transport_algorithms():
     Does not return anything.
     """
     # TODO: Your code here
-    pass
+    # load the dict
+    cow_dict = load_cows("ps1_cow_data.txt")
+    # clock the start time for the greedy algorithm
+    start_greedy: float = time.time()
+    # get the len of trips to determine how many minimum trips we got from our greedy function/algorithm
+    greedy_trips: int = len(greedy_cow_transport(cow_dict))
+    # clock the end time of the greedy algorithm, after it finished it's execution
+    end_greedy: float = time.time()
+
+    # clock the start time for the brute force algorithm
+    start_brute: float = time.time()
+    # get the len of trips to determine how many minimum trips we got from our brute force function/algorithm
+    brute_trips: int = len(brute_force_cow_transport(cow_dict))
+    # clock the end time of the brute force algorithm, after it finished it's execution
+    end_brute: float = time.time()
+
+    print(
+        f"Greedy Cow Transport Algorithm took {end_greedy - start_greedy:.5f} seconds to run.",
+        f"Minimum trips it found was {greedy_trips}.",
+    )
+    print(
+        f"Brute Force Cow Transport Algorithm took {end_brute - start_brute:.5f} seconds to run.",
+        f"Minimum trips it found was {brute_trips}.",
+    )
