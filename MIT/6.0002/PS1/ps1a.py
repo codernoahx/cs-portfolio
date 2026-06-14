@@ -2,7 +2,7 @@
 # 6.0002 Problem Set 1a: Space Cows
 # Name: Noah
 # Collaborators:
-# Time:
+# Time: 2:00
 
 from ps1_partition import get_partitions
 import time
@@ -176,9 +176,9 @@ def compare_cow_transport_algorithms() -> None:
 
     print(
         f"Greedy Cow Transport Algorithm took {end_greedy - start_greedy:.5f} seconds to run.",
-        f"Minimum trips it found was {greedy_trips}.",
+        f"And number of trips it found was {greedy_trips}.",
     )
     print(
         f"Brute Force Cow Transport Algorithm took {end_brute - start_brute:.5f} seconds to run.",
-        f"Minimum trips it found was {brute_trips}.",
+        f"And number of trips it found was {brute_trips}.",
     )
